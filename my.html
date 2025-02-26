@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>我的（18+）</title>
+  <style>
+    body { background: #000; color: #fff; text-align: center; }
+    button { padding: 10px 20px; margin: 5px; border-radius: 5px; background: #ff4444; color: white; border: none; }
+    button:hover { background: #cc0000; }
+  </style>
+</head>
+<body>
+  <h1>我的（18+）</h1>
+  <p id="status">未登录</p>
+  <button onclick="login()">登录/注册</button>
+  <button onclick="logout()">退出</button>
+  <h2>会员充值</h2>
+  <p>请通过支付宝/微信转账至 xxx@xxx.com，备注邮箱，48元/月，128元/季，198元/年或终身</p>
+  <button onclick="window.location='index.html'">返回首页</button>
+
+  <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore.js"></script>
+  <script>
+    const firebaseConfig = { /* 粘贴你的firebaseConfig */ };
+    firebase.initializeApp(firebaseConfig);
+    const auth = firebase.auth();
+    const db = firebase.firestore();
+
+    auth.onAuthStateChanged(user => {
+      if (user) {
+        document.getElementById("status").innerText = "已登录：" + user.email;
+        db.collection("users").doc(user.uid).get().then(doc => {
+          if (doc.exists) {
+            document.getElementById("status").innerText += " - 会员：" + doc.data().membership;
+          }
+        });
+      } else {
+        document.getElementById("status").innerText = "未登录";
+      }
+    });
+
+    function login() {
+      const email = prompt("输入邮箱");
+      const password = prompt("输入密码");
+      auth.signInWithEmailAndPassword(email, password)
+        .catch(() => auth.createUserWithEmailAndPassword(email, password));
+    }
+
+    function logout() {
+      auth.signOut();
+    }
+  </script>
+</body>
+</html>

@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>视频（18+）</title>
+  <style>
+    body { background: #000; color: #fff; text-align: center; }
+  </style>
+</head>
+<body>
+  <h1>视频（18+）</h1>
+  <video width="320" controls>
+    <source src="YOUR_TELEGRAM_LINK" type="video/mp4">
+  </video>
+  <button onclick="window.location='index.html'">返回首页</button>
+
+  <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth.js"></script>
+  <script>
+    const firebaseConfig = { /* 粘贴你的firebaseConfig */ };
+    firebase.initializeApp(firebaseConfig);
+    const auth = firebase.auth();
+
+    auth.onAuthStateChanged(user => {
+      if (!user) {
+        const video = document.querySelector("video");
+        video.addEventListener("timeupdate", function() {
+          if (this.currentTime > 10) this.pause();
+        });
+      }
+    });
+  </script>
+</body>
+</html>

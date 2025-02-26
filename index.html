@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>成人美女看图（18+）</title>
+  <style>
+    body { font-family: Arial, sans-serif; text-align: center; background: #000; color: #fff; }
+    button { padding: 10px 20px; margin: 5px; border-radius: 5px; background: #ff4444; color: white; border: none; }
+    button:hover { background: #cc0000; }
+  </style>
+  <link rel="manifest" href="/manifest.json">
+</head>
+<body>
+  <h1>成人美女看图（18+）</h1>
+  <p style="color: red;">警告：本应用含18禁内容，仅限成人查看。</p>
+  <button onclick="window.location='cos.html'">Cos</button>
+  <button onclick="window.location='china.html'">中国</button>
+  <button onclick="window.location='foreign.html'">外国</button>
+  <button onclick="window.location='video.html'">视频</button>
+  <button onclick="window.location='my.html'">我的</button>
+  <button onclick="translatePage()">翻译</button>
+
+  <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth.js"></script>
+  <script>
+    const firebaseConfig = { /* 粘贴你的firebaseConfig */ };
+    firebase.initializeApp(firebaseConfig);
+    const auth = firebase.auth();
+
+    // 年龄验证
+    if (!localStorage.getItem("ageVerified")) {
+      const age = prompt("请输入您的年龄");
+      if (age < 18) {
+        alert("您未满18岁，无法访问！");
+        window.location = "https://www.google.com";
+      } else {
+        localStorage.setItem("ageVerified", "true");
+      }
+    }
+
+    // 翻译
+    function translatePage() {
+      const text = document.body.innerText;
+      window.open(`https://translate.google.com/?sl=zh-CN&tl=en&text=${encodeURIComponent(text)}`);
+    }
+
+    // 广告弹窗
+    setTimeout(() => alert("成人广告示例"), 5000);
+
+    // PWA
+    if ('serviceWorker' in navigator) {
+      navigator.serviceWorker.register('/service-worker.js');
+    }
+  </script>
+</body>
+</html>
