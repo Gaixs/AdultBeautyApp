@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Cos（18+）</title>
+  <style>
+    img { width: 200px; margin: 10px; }
+    body { background: #000; color: #fff; text-align: center; }
+  </style>
+</head>
+<body>
+  <h1>Cos（18+）</h1>
+  <img src="YOUR_TELEGRAM_LINK_1" alt="Cos1">
+  <img src="YOUR_TELEGRAM_LINK_2" alt="Cos2">
+  <img src="YOUR_TELEGRAM_LINK_3" alt="Cos3">
+  <img src="YOUR_TELEGRAM_LINK_4" alt="Cos4">
+  <button onclick="window.location='index.html'">返回首页</button>
+
+  <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth.js"></script>
+  <script>
+    const firebaseConfig = { /* 粘贴你的firebaseConfig */ };
+    firebase.initializeApp(firebaseConfig);
+    const auth = firebase.auth();
+
+    auth.onAuthStateChanged(user => {
+      if (!user) {
+        document.querySelectorAll("img").forEach((img, index) => {
+          if (index >= 3) img.style.display = "none";
+        });
+      }
+    });
+  </script>
+</body>
+</html>
