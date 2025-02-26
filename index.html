@@ -26,11 +26,10 @@
     firebase.initializeApp(firebaseConfig);
     const auth = firebase.auth();
 
-    // 年龄验证和成年人提示弹窗
+    // 合并年龄验证和警告弹窗
     if (!localStorage.getItem("ageVerified")) {
-      alert("警告：本应用含18禁内容，仅限成人查看 / Warning: This app contains 18+ content, for adults only.");
-      const age = prompt("请输入您的年龄 / Please enter your age");
-      if (age < 18) {
+      const age = prompt("警告：本应用含18禁内容，仅限成人查看\n请输入您的年龄\nWarning: This app contains 18+ content, for adults only\nPlease enter your age");
+      if (!age || age < 18) {
         alert("您未满18岁，无法访问！ / You are under 18, access denied!");
         window.location = "https://www.google.com";
       } else {
