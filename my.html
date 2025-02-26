@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>我的（18+）</title>
+  <title>我的（OJBK图库屋）</title>
   <style>
     body { background: #000; color: #fff; text-align: center; }
     button { padding: 10px 20px; margin: 5px; border-radius: 5px; background: #ff4444; color: white; border: none; }
@@ -11,22 +11,35 @@
   </style>
 </head>
 <body>
-  <h1>我的（18+）</h1>
+  <h1>我的（OJBK图库屋）</h1>
   <p id="status">未登录</p>
   <button onclick="login()">登录/注册</button>
   <button onclick="logout()">退出</button>
   <h2>会员充值</h2>
-  <p>请通过支付宝/微信转账至 xxx@xxx.com，备注邮箱，48元/月，128元/季，198元/年或终身</p>
+  <button onclick="buyMembership('monthly')">月度 48元</button>
+  <button onclick="buyMembership('quarterly')">季度 128元</button>
+  <button onclick="buyMembership('yearly')">年度 198元</button>
+  <button onclick="buyMembership('lifetime')">终身 198元</button>
   <button onclick="window.location='index.html'">返回首页</button>
 
   <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app.js"></script>
   <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth.js"></script>
   <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore.js"></script>
+  <script src="https://js.stripe.com/v3/"></script>
   <script>
-    const firebaseConfig = { /* 粘贴你的firebaseConfig */ };
+    const firebaseConfig = {
+      apiKey: "AiSyBPw68DnJACtglFDcP14549r-IspeqKQAE",
+      authDomain: "adultbeautyapp.firebaseapp.com",
+      projectId: "adultbeautyapp",
+      storageBucket: "adultbeautyapp.firebasestorage.app",
+      messagingSenderId: "35556272043",
+      appId: "1:35556272043:web:677758337e06bba41494ee",
+      measurementId: "G-2P8SL17JFS"
+    };
     firebase.initializeApp(firebaseConfig);
     const auth = firebase.auth();
     const db = firebase.firestore();
+    const stripe = Stripe('pk_test_51QwfoiRsYNtWimpIMVy58UTPs7GUyGvCNQIVcraKQaZAvcaep2t10B7g3bsL2aBBJx2fmWQ6eC3RSkCqAYdUH1Sz00LYmXZYOi');
 
     auth.onAuthStateChanged(user => {
       if (user) {
@@ -42,14 +55,29 @@
     });
 
     function login() {
-      const email = prompt("输入邮箱");
-      const password = prompt("输入密码");
+      const email = prompt("输入邮箱 / Enter email");
+      const password = prompt("输入密码 / Enter password");
       auth.signInWithEmailAndPassword(email, password)
         .catch(() => auth.createUserWithEmailAndPassword(email, password));
     }
 
     function logout() {
       auth.signOut();
+    }
+
+    async function buyMembership(plan) {
+      if (!auth.currentUser) {
+        alert("请先登录！ / Please log in first!");
+        return;
+      }
+      const prices = { monthly: 4800, quarterly: 12800, yearly: 19800, lifetime: 19800 }; // 金额以分计，HKD
+      const response = await fetch('https://us-central1-adultbeautyapp.cloudfunctions.net/createCheckoutSession', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ plan: plan, price: prices[plan], userId: auth.currentUser.uid })
+      });
+      const session = await response.json();
+      stripe.redirectToCheckout({ sessionId: session.id });
     }
   </script>
 </body>

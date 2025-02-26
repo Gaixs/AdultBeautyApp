@@ -22,11 +22,19 @@
   <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app.js"></script>
   <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth.js"></script>
   <script>
-    const firebaseConfig = { /* 粘贴你的firebaseConfig */ };
+    const firebaseConfig = {
+      apiKey: "AIzaSyBPw68DnJACtglFDcP14549r-IspeqKQAE",
+      authDomain: "adultbeautyapp.firebaseapp.com",
+      projectId: "adultbeautyapp",
+      storageBucket: "adultbeautyapp.firebasestorage.app",
+      messagingSenderId: "35556272043",
+      appId: "1:35556272043:web:677758337e06bba41494ee",
+      measurementId: "G-2P8SL17JFS"
+    };
     firebase.initializeApp(firebaseConfig);
     const auth = firebase.auth();
 
-    // 合并年龄验证和警告弹窗
+    // 年龄验证和警告弹窗
     if (!localStorage.getItem("ageVerified")) {
       const age = prompt("警告：本应用含18禁内容，仅限成人查看\n请输入您的年龄\nWarning: This app contains 18+ content, for adults only\nPlease enter your age");
       if (!age || age < 18) {

@@ -3,13 +3,15 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>视频（18+）</title>
+  <title>视频（OJBK图库屋）</title>
   <style>
     body { background: #000; color: #fff; text-align: center; }
+    button { padding: 10px 20px; margin: 5px; border-radius: 5px; background: #ff4444; color: white; border: none; }
+    button:hover { background: #cc0000; }
   </style>
 </head>
 <body>
-  <h1>视频（18+）</h1>
+  <h1>视频（OJBK图库屋）</h1>
   <video width="320" controls>
     <source src="YOUR_TELEGRAM_LINK" type="video/mp4">
   </video>
@@ -18,7 +20,15 @@
   <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app.js"></script>
   <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth.js"></script>
   <script>
-    const firebaseConfig = { /* 粘贴你的firebaseConfig */ };
+    const firebaseConfig = {
+      apiKey: "AiSyBPw68DnJACtglFDcP14549r-IspeqKQAE",
+      authDomain: "adultbeautyapp.firebaseapp.com",
+      projectId: "adultbeautyapp",
+      storageBucket: "adultbeautyapp.firebasestorage.app",
+      messagingSenderId: "35556272043",
+      appId: "1:35556272043:web:677758337e06bba41494ee",
+      measurementId: "G-2P8SL17JFS"
+    };
     firebase.initializeApp(firebaseConfig);
     const auth = firebase.auth();
 
